@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("首頁"),
         backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
       ),
       body: Container(),
     );

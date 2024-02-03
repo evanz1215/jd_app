@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jd_app/page/index_page.dart';
+import 'package:jd_app/provider/bottom_nav_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider.value(
+      value: BottomNavProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
