@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jd_app/config/jd_api.dart';
+import 'package:jd_app/net/net_request.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +12,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    NetRequest().requestData(JdApi.HOME_PAGE);
+    // netRequest();
     return Scaffold(
       appBar: AppBar(
         title: const Text("首頁"),
@@ -20,3 +24,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+/// More examples see https://github.com/cfug/dio/blob/main/example
+// void netRequest() async {
+//   final dio = Dio();
+//   final response = await dio.get(JdApi.HOME_PAGE);
+//   print(response.data);
+// }
