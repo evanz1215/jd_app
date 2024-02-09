@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             //  加載動畫
             if (provider.isLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CupertinoActivityIndicator(),
               );
             }
 
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             }
 
             HomePageModel model = provider.model;
-            print(model.toJson());
+            // print(model.toJson());
 
             return ListView(
               children: <Widget>[
