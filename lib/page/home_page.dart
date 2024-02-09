@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jd_app/model/home_page_model.dart';
 import 'package:jd_app/provider/home_page_provider.dart';
 import 'package:provider/provider.dart';
@@ -71,12 +72,32 @@ class _HomePageState extends State<HomePage> {
                 // 掌上秒殺頭部
                 buildMSHeaderContainer(),
                 // 掌上秒殺商品
-                buildMSBodyContainer(model)
+                buildMSBodyContainer(model),
+                // 廣告1
+                buildAds(model.pageRow?.ad1 ?? []),
+                // 廣告2
+                buildAds(model.pageRow?.ad2 ?? []),
               ],
             );
           }),
         ),
       ),
+    );
+  }
+
+  // 廣告
+  Widget buildAds(List<String> ads) {
+    List<Widget> list = [];
+    for (var i = 0; i < ads.length; i++) {
+      list.add(Expanded(
+        child: Image.asset(
+          "assets${ads[i]}",
+          // fit: BoxFit.cover,
+        ),
+      ));
+    }
+    return Row(
+      children: list,
     );
   }
 
