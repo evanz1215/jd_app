@@ -71,10 +71,40 @@ class _HomePageState extends State<HomePage> {
                 // 掌上秒殺頭部
                 buildMSHeaderContainer(),
                 // 掌上秒殺商品
+                buildMSBodyContainer(model)
               ],
             );
           }),
         ),
+      ),
+    );
+  }
+
+  Container buildMSBodyContainer(HomePageModel model) {
+    return Container(
+      height: 120,
+      color: Colors.white,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: model.quicks?.length ?? 0,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets${model.quicks?[index].image}",
+                  width: 85,
+                  height: 85,
+                ),
+                Text(
+                  "${model.quicks?[index].price}",
+                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }
