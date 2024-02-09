@@ -9,15 +9,16 @@ class HomePageProvider with ChangeNotifier {
   bool isError = false;
   String errorMsg = "";
 
-  loadHomePageDate() {
+  loadHomePageData() {
     isLoading = true;
     isError = false;
     errorMsg = "";
     NetRequest().requestData(JdApi.HOME_PAGE).then((res) {
       isLoading = false;
       if (res.code == 200) {
-        print(res.data);
+        // print(res.data);
         model = HomePageModel.fromJson(res.data);
+        // print(model.toJson());
       }
       // else {
       //   print(res.message);
