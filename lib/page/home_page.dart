@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jd_app/model/home_page_model.dart';
 import 'package:jd_app/provider/home_page_provider.dart';
@@ -67,10 +68,37 @@ class _HomePageState extends State<HomePage> {
                 buildAspectRatio(model),
                 // 圖標分類
                 buildLogos(model),
+                // 掌上秒殺頭部
+                buildMSHeaderContainer(),
+                // 掌上秒殺商品
               ],
             );
           }),
         ),
+      ),
+    );
+  }
+
+  Container buildMSHeaderContainer() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10.0),
+      padding: const EdgeInsets.all(10.0),
+      color: Colors.white,
+      height: 50,
+      child: Row(
+        children: [
+          Image.asset(
+            "assets/image/bej.png",
+            width: 90,
+            height: 20,
+          ),
+          const Spacer(),
+          const Text("更多秒殺"),
+          const Icon(
+            CupertinoIcons.right_chevron,
+            size: 14,
+          )
+        ],
       ),
     );
   }
