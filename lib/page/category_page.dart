@@ -76,9 +76,64 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Widget buildCategoryContainer(List<CategoryContentModel> contentList) {
     List<Widget> list = [];
+
+    // 處理title
+    for (var i = 0; i < contentList.length; i++) {
+      list.add(Container(
+        height: 30,
+        color: Colors.white,
+        margin: const EdgeInsets.only(left: 10.0, top: 10.0),
+        child: Text(
+          "${contentList[i].title}",
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+      ));
+
+      // 商品數據容器
+      List<Widget> descList = [];
+
+      // if (contentList[i].desc.isNotEmpty) {
+      //   for (var j = 0; j < contentList[i].desc!.length; i++) {}
+      // }
+      if (contentList[i].desc?.isNotEmpty == true) {
+        for (var j = 0; j < contentList[i].desc!.length; j++) {
+          descList.add(InkWell(
+            child: Container(
+              width: 60,
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Image.asset("assets${contentList[i].desc![j].img}",
+                      width: 50, height: 50),
+                  Text(
+                    "${contentList[i].desc![j].text}",
+                    // style: const TextStyle(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+            onTap: () {
+              print("點擊了商品");
+            },
+          ));
+        }
+        // 將商品數據容器添加到list中
+        list.add(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+                spacing: 7.0,
+                runSpacing: 10.0,
+                alignment: WrapAlignment.start,
+                children: descList),
+          ),
+        );
+      }
+    }
+
     return Container(
       width: double.infinity,
-      color: Colors.red,
+      color: Colors.white,
       child: ListView(children: list),
     );
   }
