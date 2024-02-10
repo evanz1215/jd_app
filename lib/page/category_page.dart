@@ -78,7 +78,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                     fontWeight: FontWeight.w500),
                               )),
                           onTap: () {
-                            print(index);
+                            // print(index);
+
+                            provider.loadCategoryContentData(index);
                           });
                     },
                   ),
