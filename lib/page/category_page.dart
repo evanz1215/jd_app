@@ -35,7 +35,7 @@ class _CategoryPageState extends State<CategoryPage> {
               builder: (context, provider, child) {
             // print(provider.isLoading);
             //  加載動畫
-            if (provider.isLoading) {
+            if (provider.isLoading && provider.categoryNavList.isEmpty) {
               return const Center(
                 child: CupertinoActivityIndicator(),
               );
@@ -65,7 +65,16 @@ class _CategoryPageState extends State<CategoryPage> {
                 buildNavLeftContainer(provider),
                 // 分類右側
                 Expanded(
-                    child: buildCategoryContainer(provider.categoryContentList))
+                    child: Stack(
+                  children: <Widget>[
+                    buildCategoryContainer(provider.categoryContentList),
+                    provider.isLoading
+                        ? const Center(
+                            child: CupertinoActivityIndicator(),
+                          )
+                        : Container()
+                  ],
+                ))
               ],
             );
           }),
