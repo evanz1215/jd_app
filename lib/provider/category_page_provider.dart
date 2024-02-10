@@ -9,6 +9,7 @@ class CategoryPageProvider with ChangeNotifier {
   String errorMsg = "";
   List<String> categoryNavList = [];
   List<CategoryContentModel> categoryContentList = [];
+  int tabIndex = 0;
 
   loadCategoryPageData() {
     isLoading = true;
@@ -25,6 +26,8 @@ class CategoryPageProvider with ChangeNotifier {
         // for (var i = 0; i < res.data.length; i++) {
         //   categoryNavList.add(res.data[i]);
         // }
+
+        loadCategoryContentData(tabIndex);
       }
       notifyListeners();
     }).catchError((error) {
@@ -38,6 +41,7 @@ class CategoryPageProvider with ChangeNotifier {
 
   // 加載分類內容數據
   loadCategoryContentData(int index) {
+    tabIndex = index;
     // print(index);
     isLoading = true;
     isError = false;
@@ -51,15 +55,12 @@ class CategoryPageProvider with ChangeNotifier {
         .then((res) {
       isLoading = false;
       print(res.data);
-      // if (res.data is List) {
-      //   // 在建立新的List可以使用
-      //   categoryContentList = List<CategoryContentModel>.from(res.data);
-
-      //   // 在原有List上添加新的item可以使用
-      //   // for (var i = 0; i < res.data.length; i++) {
-      //   //   categoryNavList.add(res.data[i]);
-      //   // }
-      // }
+      if (res.data is List) {
+        for (var item in res.data) {
+          CategoryContentModel tmpModel = CategoryContentModel.fromJson(item);
+          categoryContentList.add(tmpModel);
+        }
+      }
       notifyListeners();
     }).catchError((error) {
       print(error);
