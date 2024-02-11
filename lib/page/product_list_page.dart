@@ -56,7 +56,7 @@ class _ProductListPageState extends State<ProductListPage> {
                 itemCount: provider.list.length,
                 itemBuilder: (context, index) {
                   ProductInfoModel model = provider.list[index];
-                  print(model.toJson());
+                  // print(model.toJson());
                   return;
                 },
               );

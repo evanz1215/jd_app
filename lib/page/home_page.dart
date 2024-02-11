@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jd_app/model/home_page_model.dart';
 import 'package:jd_app/provider/home_page_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +18,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // NetRequest().requestData(JdApi.HOME_PAGE).then((res) => print(res.data));
-
     // netRequest();
+
+    print(dotenv.env["MY_ENV_TEST"]);
+
     return ChangeNotifierProvider<HomePageProvider>(
       create: (context) {
         var provider = HomePageProvider();
