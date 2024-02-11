@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jd_app/model/category_content_model.dart';
+import 'package:jd_app/page/product_list_page.dart';
 import 'package:jd_app/provider/category_page_provider.dart';
+import 'package:jd_app/provider/product_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _CategoryPageState extends State<CategoryPage> {
           title: const Text("分類"),
           backgroundColor: Colors.lightBlue,
           foregroundColor: Colors.white,
+          centerTitle: true,
         ),
         body: Container(
           color: const Color(0xFFF4F4F4),
@@ -122,7 +125,25 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             ),
             onTap: () {
-              print("點擊了商品");
+              // print("點擊了商品");
+
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<ProductListProvider>(
+                  create: (context) {
+                    var provider = ProductListProvider();
+                    provider.loadProductList();
+                    return provider;
+                  },
+                  child: Consumer<ProductListProvider>(
+                      builder: (context, provider, child) {
+                    return Container(
+                      child: ProductListPage(
+                          title: contentList[i].desc![j].text ?? ''),
+                    );
+                  }),
+                ),
+              ));
             },
           ));
         }

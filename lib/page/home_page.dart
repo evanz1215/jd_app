@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           title: const Text("首頁"),
           backgroundColor: Colors.lightBlue,
           foregroundColor: Colors.white,
+          centerTitle: true,
         ),
         body: Container(
           color: const Color(0xFFF4F4F4),

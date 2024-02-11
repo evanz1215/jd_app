@@ -13,6 +13,9 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("我的"),
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
+        centerTitle: true,
       ),
       body: Container(),
     );
