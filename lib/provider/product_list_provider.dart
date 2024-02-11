@@ -8,6 +8,7 @@ class ProductListProvider with ChangeNotifier {
   bool isLoading = false;
   bool isError = false;
   String errorMsg = "";
+  List<ProductInfoModel> list = [];
 
   loadProductList() {
     isLoading = true;
@@ -15,11 +16,12 @@ class ProductListProvider with ChangeNotifier {
     errorMsg = "";
     NetRequest().requestData(JdApi.PRODUCTIONS_LIST).then((res) {
       isLoading = false;
-      print(res.data);
-      if (res.code == 200) {
-        // print(res.data);
-        // model = ProductInfoModel.fromJson(res.data);
-        // print(model.toJson());
+      // print(res.data);
+      if (res.code == 200 && res.data is List) {
+        for (var item in res.data) {
+          ProductInfoModel tmpModel = ProductInfoModel.fromJson(item);
+          list.add(tmpModel);
+        }
       }
       // else {
       //   print(res.message);
