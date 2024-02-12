@@ -52,6 +52,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
           var model = provider.model;
 
+          String baitiaoTitle = "【白條支付】首單享立減優惠";
+
+          for (var item in model.baitiao ?? []) {
+            if (item.select == true) {
+              baitiaoTitle = item.desc ?? '';
+              break;
+            }
+          }
+
           return Stack(
             children: [
               //主體內容
@@ -96,9 +105,75 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         )),
-                  )
+                  ),
                   // 白條支付
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        top: BorderSide(color: Color(0xffe8e8ed), width: 1),
+                        bottom: BorderSide(color: Color(0xffe8e8ed), width: 1),
+                      ),
+                    ),
+                    child: InkWell(
+                      child: Row(
+                        children: [
+                          const Text(
+                            "支付",
+                            style: TextStyle(
+                              color: Color(0xff999999),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Text(baitiaoTitle),
+                            ),
+                          ),
+                          const Icon(Icons.more_horiz)
+                        ],
+                      ),
+                      onTap: () {
+                        // 選擇支付方式 白條支付 or 分期
+                      },
+                    ),
+                  ),
                   // 商品件數
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        top: BorderSide(color: Color(0xffe8e8ed), width: 1),
+                        bottom: BorderSide(color: Color(0xffe8e8ed), width: 1),
+                      ),
+                    ),
+                    child: InkWell(
+                      child: Row(
+                        children: [
+                          const Text(
+                            "已選",
+                            style: TextStyle(
+                              color: Color(0xff999999),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Text("${model.partData?.count ?? "1"} 件"),
+                            ),
+                          ),
+                          const Icon(Icons.more_horiz)
+                        ],
+                      ),
+                      onTap: () {
+                        // 選擇商品件數
+                      },
+                    ),
+                  )
                 ],
               ),
               // 底部菜單
