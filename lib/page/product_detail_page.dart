@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -49,58 +50,105 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             );
           }
 
+          var model = provider.model;
+
           return Stack(
             children: [
-              //主體
-
+              //主體內容
+              ListView(
+                children: [
+                  // 輪播圖
+                  Container(
+                    color: Colors.white,
+                    height: 400,
+                    child: Swiper(
+                      itemCount: model.partData?.loopImgUrl?.length ?? 0,
+                      pagination: const SwiperPagination(),
+                      autoplay: true,
+                      itemBuilder: (context, index) {
+                        return Image.asset(
+                          "assets${model.partData?.loopImgUrl?[index]}",
+                          width: double.infinity,
+                          height: 400,
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ),
+                  ),
+                  // 標題
+                  Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      model.partData?.title ?? "",
+                      style: const TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  // 價格
+                  Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(10),
+                    child: Text("\$${model.partData?.price ?? ""}",
+                        style: const TextStyle(
+                          color: Color(0xffe93b3d),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  )
+                  // 白條支付
+                  // 商品件數
+                ],
+              ),
               // 底部菜單
               Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                                color: Color(0xffe8e8ed), width: 1))),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            child: Container(
-                              height: 60,
-                              color: Colors.white,
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.shopping_cart),
-                                  Text(
-                                    "購物車",
-                                    style: TextStyle(fontSize: 13.0),
-                                  )
-                                ],
-                              ),
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          top: BorderSide(color: Color(0xffe8e8ed), width: 1))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          child: Container(
+                            height: 60,
+                            color: Colors.white,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.shopping_cart),
+                                Text(
+                                  "購物車",
+                                  style: TextStyle(fontSize: 13.0),
+                                )
+                              ],
                             ),
                           ),
                         ),
-                        Expanded(
-                            child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                              height: 60,
-                              color: const Color(0xffe93b3d),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "加入購物車",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ))
-                      ],
-                    ),
-                  ))
+                      ),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                            height: 60,
+                            color: const Color(0xffe93b3d),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "加入購物車",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ))
+                    ],
+                  ),
+                ),
+              )
             ],
           );
         }),
