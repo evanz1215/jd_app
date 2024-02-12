@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jd_app/model/product_info_model.dart';
+import 'package:jd_app/page/product_detail_page.dart';
+import 'package:jd_app/provider/product_detail_provider.dart';
 import 'package:jd_app/provider/product_list_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +62,24 @@ class _ProductListPageState extends State<ProductListPage> {
                   return InkWell(
                     child: buildProductItem(model),
                     onTap: () {
-                      print("點擊了商品:${model.title}");
+                      // print("點擊了商品:${model.title}");
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ChangeNotifierProvider<ProductDetailProvider>(
+                          create: (context) {
+                            var provider = ProductDetailProvider();
+                            provider.loadProduct(id: model.id ?? '');
+                            return provider;
+                          },
+                          child: Consumer<ProductDetailProvider>(
+                              builder: (context, provider, child) {
+                            return Container(
+                              child: ProductDetailPage(id: model.id ?? ''),
+                            );
+                          }),
+                        ),
+                      ));
                     },
                   );
                 },
