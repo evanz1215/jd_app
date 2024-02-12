@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     // NetRequest().requestData(JdApi.HOME_PAGE).then((res) => print(res.data));
     // netRequest();
 
-    print(dotenv.env["MY_ENV_TEST"]);
+    // print(dotenv.env["MY_ENV_TEST"]);
 
     return ChangeNotifierProvider<HomePageProvider>(
       create: (context) {

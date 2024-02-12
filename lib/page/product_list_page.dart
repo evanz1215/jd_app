@@ -57,11 +57,74 @@ class _ProductListPageState extends State<ProductListPage> {
                 itemBuilder: (context, index) {
                   ProductInfoModel model = provider.list[index];
                   // print(model.toJson());
-                  return;
+                  return InkWell(
+                    child: buildProductItem(model),
+                    onTap: () {
+                      print("點擊了商品:${model.title}");
+                    },
+                  );
                 },
               );
             }),
           )),
+    );
+  }
+
+  Row buildProductItem(ProductInfoModel model) {
+    return Row(
+      children: [
+        Image.asset(
+          "assets${model.cover}",
+          width: 95,
+          height: 120,
+        ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.title ?? '',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                "\$${model.price}",
+                style:
+                    const TextStyle(fontSize: 16.0, color: Color(0xffe93b3d)),
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "${model.comment}條評價",
+                    style: const TextStyle(
+                        fontSize: 13.0, color: Color(0xff999999)),
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  Text(
+                    "好評率${model.rate}",
+                    style: const TextStyle(
+                        fontSize: 13.0, color: Color(0xff999999)),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+            ],
+          ),
+        )),
+      ],
     );
   }
 }
