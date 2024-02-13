@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jd_app/page/index_page.dart';
 import 'package:jd_app/provider/bottom_nav_provider.dart';
+import 'package:jd_app/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env.development");
   runApp(
-    ChangeNotifierProvider.value(
-      value: BottomNavProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: BottomNavProvider(),
+        ),
+        ChangeNotifierProvider<CartProvider>(create: (context) {
+          CartProvider provider = CartProvider();
+          return provider;
+        }),
+      ],
       child: const MyApp(),
     ),
   );

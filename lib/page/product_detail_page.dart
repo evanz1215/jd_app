@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jd_app/model/product_detail_model.dart';
+import 'package:jd_app/provider/cart_provider.dart';
 import 'package:jd_app/provider/product_detail_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -76,11 +77,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   // 白條支付
                   buildPayContainer(context, baitiaoTitle, model, provider),
                   // 商品件數
-                  buildCountContainer(model, provider)
+                  buildCountContainer(context, model, provider)
                 ],
               ),
               // 底部菜單
-              buildBottomPositioned()
+              buildBottomPositioned(context, model),
             ],
           );
         }),
@@ -88,7 +89,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Positioned buildBottomPositioned() {
+  Positioned buildBottomPositioned(
+      BuildContext context, ProductDetailModel model) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -119,7 +121,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             Expanded(
                 child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Provider.of<CartProvider>(context, listen: false)
+                    .addToCart(model.partData ?? PartData());
+              },
               child: Container(
                   height: 60,
                   color: const Color(0xffe93b3d),
@@ -138,8 +143,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildCountContainer(
-      ProductDetailModel model, ProductDetailProvider provider) {
+  Container buildCountContainer(BuildContext context, ProductDetailModel model,
+      ProductDetailProvider provider) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: const BoxDecoration(
@@ -321,7 +326,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           onTap: () {
                             //加入購物車
-                            print("加入購物車");
+                            // print("加入購物車");
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addToCart(model.partData ?? PartData());
+                            Navigator.pop(context);
                           },
                         ))
                   ],
