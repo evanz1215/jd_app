@@ -40,4 +40,20 @@ class ProductDetailProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
+  void changeBaitiaoSelected(int index) {
+    if (model.baitiao == null) return;
+
+    if (model.baitiao![index].select == false) {
+      for (var i = 0; i < model.baitiao!.length; i++) {
+        if (i == index) {
+          model.baitiao![i].select = true;
+        } else {
+          model.baitiao![i].select = false;
+        }
+      }
+
+      notifyListeners();
+    }
+  }
 }
