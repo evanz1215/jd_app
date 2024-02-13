@@ -230,8 +230,86 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ],
                   ),
                   // 中間 數量 加減號
-
+                  Container(
+                    margin: const EdgeInsets.only(top: 90.0, bottom: 50.0),
+                    padding: const EdgeInsets.only(top: 40.0, left: 15.0),
+                    child: Row(
+                      children: [
+                        const Text("數量"),
+                        const Spacer(),
+                        InkWell(
+                          child: Container(
+                            width: 35,
+                            height: 35,
+                            color: const Color(0xfff7f7f7),
+                            child: const Center(
+                              child: Text(
+                                "-",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Color(0xffb0b0b0)),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            //減號
+                            print("-");
+                          },
+                        ),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        SizedBox(
+                          width: 35,
+                          height: 35,
+                          child: Center(
+                            child: Text("${model.partData?.count ?? 0}"),
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        InkWell(
+                          child: Container(
+                            width: 35,
+                            height: 35,
+                            color: const Color(0xfff7f7f7),
+                            child: const Center(
+                              child: Text(
+                                "+",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Color(0xffb0b0b0)),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            //加號
+                            print("+");
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                   // 底部 加入購物車按鈕
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: InkWell(
+                        child: Container(
+                          height: 50,
+                          color: const Color(0xffe4393d),
+                          alignment: Alignment.center,
+                          child: const Text(
+                            "加入購物車",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        onTap: () {
+                          //加入購物車
+                          print("加入購物車");
+                        },
+                      ))
                 ],
               );
             },
