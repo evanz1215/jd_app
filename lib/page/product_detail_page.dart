@@ -74,7 +74,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   // 價格
                   buildPriceContainer(model),
                   // 白條支付
-                  buildPayContainer(baitiaoTitle),
+                  buildPayContainer(context, baitiaoTitle, model),
                   // 商品件數
                   buildCountContainer(model)
                 ],
@@ -173,7 +173,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildPayContainer(String baitiaoTitle) {
+  Container buildPayContainer(
+      BuildContext context, String baitiaoTitle, ProductDetailModel model) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: const BoxDecoration(
@@ -203,13 +204,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
         onTap: () {
           // 選擇支付方式 白條支付 or 分期
-          showBaitiao();
+          showBaitiao(context, model);
         },
       ),
     );
   }
 
-  Future<void> showBaitiao() {
+  Future<void> showBaitiao(BuildContext context, ProductDetailModel model) {
     return showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -247,9 +248,77 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                   )
                 ],
-              )
+              ),
               // 主體內容
+              Container(
+                margin: const EdgeInsets.only(top: 40, bottom: 50),
+                child: ListView.builder(
+                    itemCount: model.baitiao?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Image.asset(
+                                "assets/image/unselect.png",
+                                width: 20.0,
+                                height: 20.0,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(model.baitiao?[index].desc ?? ""),
+                                  Text(
+                                    model.baitiao?[index].tip ?? "",
+                                    // style: const TextStyle(
+                                    //   color: Color(0xff999999),
+                                    //   fontSize: 12.0,
+                                    // ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        onTap: () {
+                          // 選擇分期類型
+                        },
+                      );
+                    }),
+              ),
               // 底部按鈕
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: InkWell(
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.0,
+                    color: const Color(0xffe4393c),
+                    child: const Center(
+                      child: Text(
+                        "立即打白條",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    // 確定
+                    Navigator.pop(context);
+                  },
+                ),
+              )
             ],
           );
         });
@@ -260,12 +329,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       width: double.infinity,
       color: Colors.white,
       padding: const EdgeInsets.all(10),
-      child: Text("\$${model.partData?.price ?? ""}",
-          style: const TextStyle(
-            color: Color(0xffe93b3d),
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-          )),
+      child: Text(
+        "\$${model.partData?.price ?? ""}",
+        style: const TextStyle(
+          color: Color(0xffe93b3d),
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
