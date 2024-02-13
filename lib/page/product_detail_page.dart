@@ -76,7 +76,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   // 白條支付
                   buildPayContainer(context, baitiaoTitle, model, provider),
                   // 商品件數
-                  buildCountContainer(model)
+                  buildCountContainer(model, provider)
                 ],
               ),
               // 底部菜單
@@ -138,7 +138,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildCountContainer(ProductDetailModel model) {
+  Container buildCountContainer(
+      ProductDetailModel model, ProductDetailProvider provider) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: const BoxDecoration(
@@ -173,144 +174,158 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             context: context,
             builder: (BuildContext context) {
               // Add your bottom sheet content here
-              return Stack(
-                children: [
-                  // 頂部 圖片 價格 數量
-                  Container(
-                      color: Colors.white,
-                      width: double.infinity,
-                      height: double.infinity,
-                      margin: const EdgeInsets.only(top: 20)),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Image.asset(
-                          "assets${model.partData?.loopImgUrl?[2]}",
-                          width: 90,
-                          height: 90,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "\$${model.partData?.price ?? ""}",
-                            style: const TextStyle(
-                              color: Color(0xffe93b3d),
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "已選 ${model.partData?.count ?? 0} 件",
-                            style: const TextStyle(
-                              color: Color(0xff999999),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          child: IconButton(
-                            icon: const Icon(Icons.close),
-                            iconSize: 20,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ))
-                    ],
-                  ),
-                  // 中間 數量 加減號
-                  Container(
-                    margin: const EdgeInsets.only(top: 90.0, bottom: 50.0),
-                    padding: const EdgeInsets.only(top: 40.0, left: 15.0),
-                    child: Row(
+              return ChangeNotifierProvider.value(
+                value: provider,
+                child: Stack(
+                  children: [
+                    // 頂部 圖片 價格 數量
+                    Container(
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: double.infinity,
+                        margin: const EdgeInsets.only(top: 20)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("數量"),
+                        Container(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Image.asset(
+                            "assets${model.partData?.loopImgUrl?[2]}",
+                            width: 90,
+                            height: 90,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Text(
+                              "\$${model.partData?.price ?? ""}",
+                              style: const TextStyle(
+                                color: Color(0xffe93b3d),
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "已選 ${model.partData?.count ?? 0} 件",
+                              style: const TextStyle(
+                                color: Color(0xff999999),
+                              ),
+                            ),
+                          ],
+                        ),
                         const Spacer(),
-                        InkWell(
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            color: const Color(0xfff7f7f7),
-                            child: const Center(
-                              child: Text(
-                                "-",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Color(0xffb0b0b0)),
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            //減號
-                            print("-");
-                          },
-                        ),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        SizedBox(
-                          width: 35,
-                          height: 35,
-                          child: Center(
-                            child: Text("${model.partData?.count ?? 0}"),
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        InkWell(
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            color: const Color(0xfff7f7f7),
-                            child: const Center(
-                              child: Text(
-                                "+",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Color(0xffb0b0b0)),
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            //加號
-                            print("+");
-                          },
-                        )
+                        Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            child: IconButton(
+                              icon: const Icon(Icons.close),
+                              iconSize: 20,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ))
                       ],
                     ),
-                  ),
-                  // 底部 加入購物車按鈕
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: InkWell(
-                        child: Container(
-                          height: 50,
-                          color: const Color(0xffe4393d),
-                          alignment: Alignment.center,
-                          child: const Text(
-                            "加入購物車",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
+                    // 中間 數量 加減號
+                    Container(
+                      margin: const EdgeInsets.only(top: 90.0, bottom: 50.0),
+                      padding: const EdgeInsets.only(top: 40.0, left: 15.0),
+                      child: Consumer<ProductDetailProvider>(
+                          builder: (context, provider, child) {
+                        return Row(
+                          children: [
+                            const Text("數量"),
+                            const Spacer(),
+                            InkWell(
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                color: const Color(0xfff7f7f7),
+                                child: const Center(
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xffb0b0b0)),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                //減號
+                                // print("-");
+                                int tmpCount = model.partData?.count ?? 0;
+                                tmpCount--;
+                                provider.changeProductCount(tmpCount);
+                              },
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            SizedBox(
+                              width: 35,
+                              height: 35,
+                              child: Center(
+                                child: Text("${model.partData?.count ?? 0}"),
+                              ),
+                            ),
+                            const SizedBox(width: 2),
+                            InkWell(
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                color: const Color(0xfff7f7f7),
+                                child: const Center(
+                                  child: Text(
+                                    "+",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xffb0b0b0)),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                //加號
+                                int tmpCount = model.partData?.count ?? 0;
+                                tmpCount++;
+                                provider.changeProductCount(tmpCount);
+                                // print(provider.model.partData?.count ?? 0);
+                              },
+                            )
+                          ],
+                        );
+                      }),
+                    ),
+                    // 底部 加入購物車按鈕
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: InkWell(
+                          child: Container(
+                            height: 50,
+                            color: const Color(0xffe4393d),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "加入購物車",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        onTap: () {
-                          //加入購物車
-                          print("加入購物車");
-                        },
-                      ))
-                ],
+                          onTap: () {
+                            //加入購物車
+                            print("加入購物車");
+                          },
+                        ))
+                  ],
+                ),
               );
             },
           );

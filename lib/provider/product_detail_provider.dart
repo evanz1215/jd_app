@@ -56,4 +56,12 @@ class ProductDetailProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  //數量
+  void changeProductCount(int count) {
+    if (count > 0 && model.partData?.count != count) {
+      model.partData?.count = count;
+      notifyListeners();
+    }
+  }
 }
