@@ -203,9 +203,56 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
         onTap: () {
           // 選擇支付方式 白條支付 or 分期
+          showBaitiao();
         },
       ),
     );
+  }
+
+  Future<void> showBaitiao() {
+    return showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Stack(
+            children: [
+              // 頂部標題
+              Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 40,
+                    color: const Color(0xfff3f2f8),
+                    child: const Center(
+                      child: Text(
+                        "打白條購買",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    width: 40.0,
+                    height: 40.0,
+                    child: Center(
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        iconSize: 20,
+                        onPressed: () {
+                          // 關閉彈窗
+                          // Navigator.of(context).pop();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              )
+              // 主體內容
+              // 底部按鈕
+            ],
+          );
+        });
   }
 
   Container buildPriceContainer(ProductDetailModel model) {
