@@ -2,7 +2,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jd_app/model/product_detail_model.dart';
+import 'package:jd_app/provider/bottom_nav_provider.dart';
 import 'package:jd_app/provider/cart_provider.dart';
 import 'package:jd_app/provider/product_detail_provider.dart';
 import 'package:provider/provider.dart';
@@ -103,29 +105,67 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           children: [
             Expanded(
               child: InkWell(
-                child: Container(
-                  height: 60,
-                  color: Colors.white,
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.shopping_cart),
-                      Text(
-                        "購物車",
-                        style: TextStyle(fontSize: 13.0),
-                      )
-                    ],
+                  child: Container(
+                    height: 60,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          children: [
+                            const SizedBox(
+                              width: 40,
+                              height: 30,
+                              child: Icon(Icons.shopping_cart),
+                            ),
+                            Consumer<CartProvider>(
+                                builder: (context, cartProvider, child) {
+                              return Positioned(
+                                // top: 0,
+                                right: 0,
+                                child: cartProvider.getAllCount() > 0
+                                    ? Container(
+                                        // height: 15,
+                                        // width: 15,
+                                        padding: const EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        //TODO: 這邊要改圓形會變成橢圓
+                                        child: Text(
+                                          "${cartProvider.getAllCount()}",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11.0),
+                                        ),
+                                      )
+                                    : Container(),
+                              );
+                            })
+                          ],
+                        ),
+                        const Text(
+                          "購物車",
+                          style: TextStyle(fontSize: 13.0),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                  onTap: () {
+                    // print("測試");
+                    // 購物車
+                    // 先回到頂層
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
+                    // 跳轉到購物車頁面
+                    Provider.of<BottomNavProvider>(context, listen: false)
+                        .changeBottomNavIndex(2);
+                  }),
             ),
             Expanded(
-                child: InkWell(
-              onTap: () {
-                Provider.of<CartProvider>(context, listen: false)
-                    .addToCart(model.partData ?? PartData());
-              },
-              child: Container(
+              child: InkWell(
+                child: Container(
                   height: 60,
                   color: const Color(0xffe93b3d),
                   alignment: Alignment.center,
@@ -135,8 +175,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         fontSize: 15.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
-                  )),
-            ))
+                  ),
+                ),
+                onTap: () {
+                  Provider.of<CartProvider>(context, listen: false)
+                      .addToCart(model.partData ?? PartData());
+
+                  Fluttertoast.showToast(
+                    msg: "成功加入購物車",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    fontSize: 16.0,
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

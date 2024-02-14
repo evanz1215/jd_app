@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jd_app/page/index_page.dart';
 import 'package:jd_app/provider/bottom_nav_provider.dart';
 import 'package:jd_app/provider/cart_provider.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       home: const IndexPage(),
+      // builder: FToastBuilder(),
     );
   }
 }

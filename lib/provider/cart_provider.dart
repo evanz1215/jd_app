@@ -63,4 +63,13 @@ class CartProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // 獲取購物車商品數量
+  int getAllCount() {
+    int count = 0;
+    for (var model in models) {
+      count += model.count!;
+    }
+    return count;
+  }
 }
