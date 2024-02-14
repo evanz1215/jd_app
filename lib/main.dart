@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jd_app/page/index_page.dart';
 import 'package:jd_app/provider/bottom_nav_provider.dart';
 import 'package:jd_app/provider/cart_provider.dart';
@@ -16,6 +15,7 @@ void main() async {
         ),
         ChangeNotifierProvider<CartProvider>(create: (context) {
           CartProvider provider = CartProvider();
+          provider.getCartList();
           return provider;
         }),
       ],

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
   List<PartData> models = [];
+  final String cartInfoString = "cartInfo";
 
   Future<void> addToCart(PartData data) async {
     // print(data.toJson());
@@ -23,13 +24,13 @@ class CartProvider with ChangeNotifier {
     List<String> list = [];
 
     // 先把緩存取出來
-    list = prefs.getStringList("cartInfo") ?? [];
+    list = prefs.getStringList(cartInfoString) ?? [];
 
     // 判斷取出來的list是否為空
     if (list.isEmpty) {
       // print("沒數據");
       list.add(json.encode(data.toJson()));
-      prefs.setStringList("cartInfo", list);
+      prefs.setStringList(cartInfoString, list);
       // 更新本地數據
       models.add(data);
       notifyListeners();
@@ -59,7 +60,7 @@ class CartProvider with ChangeNotifier {
       }
 
       // 存入緩存
-      prefs.setStringList("cartInfo", tmpList);
+      prefs.setStringList(cartInfoString, tmpList);
       notifyListeners();
     }
   }
@@ -71,5 +72,24 @@ class CartProvider with ChangeNotifier {
       count += model.count!;
     }
     return count;
+  }
+
+  // 獲取購物車商品列表
+  void getCartList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> list = [];
+    // prefs.clear();
+    // 取出緩存
+    list = prefs.getStringList("cartInfo") ?? [];
+
+    if (list.isNotEmpty) {
+      for (var i = 0; i < list.length; i++) {
+        PartData tmpData = PartData.fromJson(json.decode(list[i]));
+        models.add(tmpData);
+      }
+      notifyListeners();
+    }
+    // print(list);
   }
 }
